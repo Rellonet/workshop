@@ -1,0 +1,150 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link href="///home/amal/Desktop/workshop/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="///home/amal/Desktop/workshop/bootstrap.min.js"></script>
+<script src="///home/amal/Desktop/workshop/jquery-3.3.1.min.js"></script>
+<script src="///home/amal/Desktop/workshop/web3.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<br>
+<br>
+<body>
+<center>
+<div class="container">
+        <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+        	<div class="panel panel-default">
+        		<div class="panel-heading">
+			    		<h3 class="panel-title"><small>Please sign in your first</small> DApp</h3>
+			 			</div>
+			 			<div class="panel-body">
+			    		<form role="form">
+			    			<div class="row">
+			    				
+
+			    			<div class="form-group">
+			    				<input type="text" name="phno" id="phno" class="form-control input-sm" placeholder="Phone Number">
+			    			</div>
+						<div class="form-group">
+			    				<input type="password" name="pass" id="pass" class="form-control input-sm" placeholder="Password">
+			    			</div>
+
+			    			
+			    			<input type="button" value="Login" id="login" class="btn btn-info btn-block"><br>
+						
+			    		
+			    		</form>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+</center>
+ <script>
+       if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+        
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        
+        var TestingContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_fname",
+				"type": "string"
+			},
+			{
+				"name": "_lname",
+				"type": "string"
+			},
+			{
+				"name": "_email",
+				"type": "string"
+			},
+			{
+				"name": "_pass",
+				"type": "string"
+			},
+			{
+				"name": "_phnumber",
+				"type": "uint256"
+			}
+		],
+		"name": "newUser",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_phnumber",
+				"type": "uint256"
+			}
+		],
+		"name": "getUser",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]); 
+        
+        var TestingC = TestingContract.at('0x14469e8b3ee5e082e0c2d2b6c9d9433f1930ae4c');
+        console.log(TestingC);
+        
+    
+    
+        
+
+	$("#login").click(function() {
+         var ph=$("#phno").val();
+	 var pass= $("#pass").val();
+	 console.log("hello"+ph);
+            
+            TestingC.getUser(ph,function(error, result){
+		console.log(result[3]);
+		if(pass.localeCompare(result[3])==0){
+			window.location.href = "/home/amal/workshop/dashboard/index.html";
+		}
+		else{
+			window.location.href = "/home/amal/workshop/error/index.html";
+		}
+		
+		
+	});
+        });
+       
+        
+       </script>
+    
+    </body>
+   
+
+
+</head>
+</html> 

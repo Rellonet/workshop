@@ -1,0 +1,157 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link href="///home/amal/Desktop/workshop/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="///home/amal/Desktop/workshop/bootstrap.min.js"></script>
+<script src="///home/amal/Desktop/workshop/jquery-3.3.1.min.js"></script>
+<script src="///home/amal/Desktop/workshop/web3.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<br>
+<br>
+<body>
+<center>
+<div class="container">
+        <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+        	<div class="panel panel-default">
+        		<div class="panel-heading">
+			    		<h3 class="panel-title"><small>Please sign up for your first</small> DApp</h3>
+			 			</div>
+			 			<div class="panel-body">
+			    		<form role="form">
+			    			<div class="row">
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			                <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+			    					</div>
+			    				</div>
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+			    					</div>
+			    				</div>
+			    			</div>
+
+			    			<div class="form-group">
+			    				<input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address">
+			    			</div>
+						<div class="form-group">
+			    				<input type="password" name="pass" id="pass" class="form-control input-sm" placeholder="Password">
+			    			</div>
+
+			    			<div class="row">
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="number" name="phnum" id="phnum" class="form-control input-sm" placeholder="Phone Number">
+			    					</div>
+			    				</div>
+			    				
+			    			</div>
+			    			
+			    			<input type="submit" value="Register" id="register" class="btn btn-info btn-block"><br>
+						<a href="file:///home/amal/workshop/login.html">
+						<input type="button" value="Login" id="login" class="btn btn-info btn-block"></a>
+						
+			    		
+			    		</form>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+</center>
+ <script>
+       if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+        
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        
+        var TestingContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_fname",
+				"type": "string"
+			},
+			{
+				"name": "_lname",
+				"type": "string"
+			},
+			{
+				"name": "_email",
+				"type": "string"
+			},
+			{
+				"name": "_pass",
+				"type": "string"
+			},
+			{
+				"name": "_phnumber",
+				"type": "uint256"
+			}
+		],
+		"name": "newUser",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_phnumber",
+				"type": "uint256"
+			}
+		],
+		"name": "getUser",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]); 
+        
+        var TestingC = TestingContract.at('0x14469e8b3ee5e082e0c2d2b6c9d9433f1930ae4c');
+        console.log(TestingC);
+        
+    
+    
+        $("#register").click(function() {
+         var ph=$("#phnum").val();
+console.log(ph);
+            
+            TestingC.newUser($("#first_name").val(),$("#last_name").val(), $("#email").val(),$("#pass").val(),ph,{from: web3.eth.defaultAccount, gas:3000000});
+        });
+       
+        
+       </script>
+    
+    </body>
+   
+
+
+</head>
+</html> 
